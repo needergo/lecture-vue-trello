@@ -14,44 +14,55 @@
         </a>
       </div>
     </div>
+    <AddBoard v-if="isAddBoard" @close="isAddBoard=false" @submit="onAddBoard"></AddBoard>
   </div>
+
 </template>
 
 <script>
-import {board} from '../api'
+import { board } from "../api";
+import AddBoard from "./AddBoard.vue";
 
 export default {
+  components: {
+    AddBoard
+  },
   data() {
     return {
       loading: false,
       boards: [],
-      error: ''
-    }
+      error: "",
+      isAddBoard: ""
+    };
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   updated() {
     this.$refs.boardItem.forEach(el => {
-      el.style.backgroundColor = el.dataset.bgcolor
-    })
+      el.style.backgroundColor = el.dataset.bgcolor;
+    });
   },
   methods: {
     fetchData() {
-      this.loading = true
-      board.fetch()
+      this.loading = true;
+      board
+        .fetch()
         .then(data => {
-          this.boards = data.list
+          this.boards = data.list;
         })
-        .finally(_=> {
-          this.loading = false
-        })
+        .finally(_ => {
+          this.loading = false;
+        });
     },
     addBoard() {
-      console.log('addBoard()')
+      this.isAddBoard = true;
+    },
+    onAddBoard(title) {
+      board.create(title).then(() => this.fetchData());
     }
   }
-}
+};
 </script>
 
 <style>
@@ -82,7 +93,7 @@ export default {
 }
 .board-item a:hover,
 .board-item a:focus {
-  background-color: rgba(0,0,0, .1);
+  background-color: rgba(0, 0, 0, 0.1);
   color: #666;
 }
 .board-item-title {
