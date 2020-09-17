@@ -19,50 +19,53 @@
 </template>
 
 <script>
-import {board} from '../api'
-import AddBoard from './AddBoard.vue'
+import { board } from '../api';
+import AddBoard from './AddBoard.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: {
-    AddBoard
+    AddBoard,
   },
   data() {
     return {
       loading: false,
       boards: [],
       error: '',
-      isAddBoard: false
-    }
+    };
+  },
+  computed: {
+    ...mapState(['isAddBoard']),
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   updated() {
     this.$refs.boardItem.forEach(el => {
-      el.style.backgroundColor = el.dataset.bgcolor
-    })
+      el.style.backgroundColor = el.dataset.bgcolor;
+    });
   },
   methods: {
     fetchData() {
-      this.loading = true
-      board.fetch()
+      this.loading = true;
+      board
+        .fetch()
         .then(data => {
-          this.boards = data.list
+          this.boards = data.list;
         })
-        .finally(_=> {
-          this.loading = false
-        })
+        .finally(_ => {
+          this.loading = false;
+        });
     },
     addBoard() {
-      this.isAddBoard = true
+      this.isAddBoard = true;
     },
     onAddBoard(title) {
-      console.log(title)
-      board.create(title)
-        .then(data => this.fetchData())
-    }
-  }
-}
+      console.log(title);
+      board.create(title).then(data => this.fetchData());
+    },
+  },
+};
 </script>
 
 <style>
@@ -93,7 +96,7 @@ export default {
 }
 .board-item a:hover,
 .board-item a:focus {
-  background-color: rgba(0,0,0, .1);
+  background-color: rgba(0, 0, 0, 0.1);
   color: #666;
 }
 .board-item-title {
