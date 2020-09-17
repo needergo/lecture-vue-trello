@@ -32,10 +32,17 @@ if (token) setAuthInHeader(token);
 
 export const board = {
   fetch() {
+<<<<<<< HEAD
     return request("get", "/boards");
   },
   create(title) {
     return request("post", "/boards", { title });
+=======
+    return request('get', '/boards')
+  },
+  create(title) {
+    return request('post', '/boards', {title})
+>>>>>>> f590f4bdf3b32bc7ad320e0cfa5ad51be74273c4
   }
 };
 export const auth = {
