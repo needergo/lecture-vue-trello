@@ -22,37 +22,49 @@
 </template>
 
 <script>
+<<<<<<< Updated upstream
 import Modal from './Modal.vue'
+=======
+import { mapMutations } from "vuex";
+import Modal from "./Modal.vue";
+
+>>>>>>> Stashed changes
 export default {
   components: {
     Modal
   },
   data() {
     return {
-      input: '',
+      input: "",
       valid: false
-    }
+    };
   },
   watch: {
     input(v) {
-      this.valid = v.trim().length > 0
+      this.valid = v.trim().length > 0;
     }
   },
   mounted() {
-    this.$refs.input.focus()
+    this.$refs.input.focus();
   },
   methods: {
+<<<<<<< Updated upstream
     close() {
       this.$emit('close')
     },
     addBoard() {
       this.$emit('close')
       this.$emit('submit', this.input)
+=======
+    ...mapMutations(["SET_IS_ADD_BOARD"]),
+    addBoard() {
+      this.SET_IS_ADD_BOARD(false);
+      this.$emit("submit", this.input);
+>>>>>>> Stashed changes
     }
   }
-}
+};
 </script>
 
 <style>
-
 </style>
