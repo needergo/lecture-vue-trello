@@ -11,28 +11,26 @@
 </template>
 
 <script>
-import {setAuthInHeader} from '../api'
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   computed: {
-    isAuth() {
-      return !!localStorage.getItem('token')
-    }
+    ...mapGetters(["isAuth"])
   },
   methods: {
+    ...mapMutations(["LOGOUT"]),
     logout() {
-      delete localStorage.token
-      setAuthInHeader(null)
-      this.$router.push('/login')
+      this.LOGOUT();
+      this.$router.push("/login");
     }
   }
-}
+};
 </script>
 
 <style>
 .header {
   flex: none;
-  background-color: rgba(0,0,0,.15);
+  background-color: rgba(0, 0, 0, 0.15);
   height: 32px;
   padding: 4px;
 }
@@ -41,7 +39,7 @@ export default {
   height: 30px;
   line-height: 30px;
   text-decoration: none;
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 .header-logo {
   position: absolute;
@@ -54,7 +52,7 @@ export default {
 }
 .header-logo a:hover,
 .header-logo a:focus {
-  color: rgba(255,255,255,.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 .header-auth {
   position: absolute;
@@ -64,12 +62,12 @@ export default {
 .header-auth a {
   border-radius: 2px;
   padding: 0 10px;
-  background-color: rgba(255,255,255, .5);
+  background-color: rgba(255, 255, 255, 0.5);
   color: white;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 .header-auth a:hover,
 .header-auth a:focus {
-  background-color: rgba(255,255,255, .3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 </style>

@@ -20,48 +20,50 @@
 </template>
 
 <script>
-import {auth, setAuthInHeader} from '../api'
-
+import { auth, setAuthInHeader } from "../api";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      error: '',
-      rPath: ''
-    }
+      email: "",
+      password: "",
+      error: "",
+      rPath: ""
+    };
   },
   computed: {
     invalidForm() {
-      return !this.email || !this.password
+      return !this.email || !this.password;
     }
   },
   created() {
-    this.rPath = this.$route.query.rPath || '/'
+    this.rPath = this.$route.query.rPath || "/";
   },
   methods: {
+    ...mapActions(["LOGIN"]),
     onSubmit() {
-      auth.login(this.email, this.password)
+      this.LOGIN({ email: this.email, password: this.email });
+      auth
+        .login(this.email, this.password)
         .then(data => {
-          localStorage.setItem('token', data.accessToken)
-          setAuthInHeader(data.accessToken)
-          this.$router.push(this.rPath)
+          localStorage.setItem("token", data.accessToken);
+          setAuthInHeader(data.accessToken);
+          this.$router.push(this.rPath);
         })
         .catch(err => {
-          this.error = err.data.error
-        })
+          this.error = err.data.error;
+        });
     }
   }
-}
+};
 </script>
 
 <style>
 .login {
   width: 400px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 .error {
   color: #f00;
 }
-
 </style>
