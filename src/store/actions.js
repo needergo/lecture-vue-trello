@@ -1,34 +1,40 @@
-import * as api from '../api'
+import * as api from "../api";
 
 const actions = {
-  LOGIN ({commit}, {email, password}) {
-    return api.auth.login(email, password)
-      .then(({accessToken}) => commit('LOGIN', accessToken))
+  LOGIN({ commit }, { email, password }) {
+    return api.auth
+      .login(email, password)
+      .then(({ accessToken }) => commit("LOGIN", accessToken));
   },
-  ADD_BOARD (_, {title}) {
-    return api.board.create(title).then(data => data.item)
+  ADD_BOARD(_, { title }) {
+    return api.board.create(title).then(data => data.item);
   },
-  FETCH_BOARDS ({commit}) {
+  FETCH_BOARDS({ commit }) {
     api.board.fetch().then(data => {
-      commit('SET_BOARDS', data.list)
-    })
+      commit("SET_BOARDS", data.list);
+    });
   },
-  FETCH_BOARD ({commit}, {id}) {
+  FETCH_BOARD({ commit }, { id }) {
     api.board.fetch(id).then(data => {
-      commit('SET_BOARD', data.item)
-    })
+      commit("SET_BOARD", data.item);
+    });
   },
 
-  ADD_CARD({dispatch, state}, {title, listId, pos}) {
-    api.card.create(title, listId, pos)
-      .then(_ => dispatch('FETCH_BOARD', {id: state.board.id}))
+  ADD_CARD({ dispatch, state }, { title, listId, pos }) {
+    api.card
+      .create(title, listId, pos)
+      .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
   },
-  FETCH_CARD({ commit }, {id}) {
+  FETCH_CARD({ commit }, { id }) {
     api.card.fetch(id).then(data => {
-      commit('SET_CARD', data.item)
-    })
+      commit("SET_CARD", data.item);
+    });
   },
-  
-}  
+  UPDATE_CARD({ dispatch, state }, { id, title, description, pos, listId }) {
+    return api.card
+      .update(id, { title, description, pos, listId })
+      .then(() => dispatch("FETCH_BOARD", { id: state.board.id }));
+  }
+};
 
-export default actions
+export default actions;
